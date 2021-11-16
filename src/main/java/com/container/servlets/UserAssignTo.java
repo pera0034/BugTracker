@@ -1,0 +1,76 @@
+package com.container.servlets;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.container.beans.ListTeam;
+import com.container.beans.Notifications;
+import com.container.beans.Projects;
+import com.container.beans.Users;
+import com.container.dao.TeamDao;
+import com.container.dao.UserDao;
+
+
+@WebServlet("/userassignto")	
+public class UserAssignTo extends HttpServlet {
+	private Notifications notify = new Notifications();
+	private String btn = "";
+	private String btnType = "Create";
+	private String pagerequest = null;
+	private String message = null;
+	
+	Projects project = null;
+	TeamDao dao = new TeamDao();		
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
+		
+		String action = req.getServletPath();
+		String state = null;
+		
+		switch(action){
+			case "/userassignto":
+				try {
+					state = UserAssignTo(req, resp);
+				} catch (SQLException | IOException e1) {
+					e1.printStackTrace();
+				}
+			    break;
+			default:
+				state = ""; // this is needed to reset the state of the form 	 
+				break;
+		}
+		
+		List<ListTeam> teams = dao.getAllTeam();
+		req.setAttribute("teams", teams);
+		// Load all the users
+		UserDao userdao = new UserDao();		
+		List<Users> users = userdao.getAllUsers();
+		
+		req.setAttribute("users", users);
+		req.setAttribute("teamname", "");	
+	    req.setAttribute("request", "createteam");
+	    req.setAttribute("teambtn", btnType);
+	    req.setAttribute("message", "");
+		req.getRequestDispatcher("/teamcreate.jsp").forward(req, resp);
+   }
+   
+   private String UserAssignTo(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+	    TeamDao dao = new TeamDao();
+		boolean methodState = dao.userAssign(req.getParameter("teamnumber"), req.getParameter("usernumber"));
+
+		if(methodState) {
+			message = "<div class='alert alert-success' role='alert'>Assign complete</div>";
+		}else {
+			message = "<div class='alert alert-primary' role='alert'>Failed to assign user</div>";
+		}
+		return message;
+   }
+}
