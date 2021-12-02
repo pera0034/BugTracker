@@ -37,7 +37,7 @@
                     <div class="navbar-nav me-auto mt-md-0" style="padding-left: 30px; color: #FFF; font-size: 12pt; text-transform: uppercase;">${hello_user}</div>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a style="background: #0192C7;" class="nav-link dropdown-toggle waves-effect waves-dark" href="login">
+                            <a style="background: #0192C7;" class="nav-link dropdown-toggle waves-effect waves-dark" href="logout">
                                Logout
                             </a>
                         </li>

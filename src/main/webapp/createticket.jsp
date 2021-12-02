@@ -39,7 +39,7 @@
                     <div class="navbar-nav me-auto mt-md-0">&nbsp;</div>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a style="background: #0192C7;" class="nav-link dropdown-toggle waves-effect waves-dark" href="login">
+                            <a style="background: #0192C7;" class="nav-link dropdown-toggle waves-effect waves-dark" href="logout">
                                Logout
                             </a>
                         </li>

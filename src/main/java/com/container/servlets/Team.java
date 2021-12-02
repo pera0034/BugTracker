@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.container.beans.ListTeam;
 import com.container.dao.TeamDao;
@@ -45,5 +46,13 @@ public class Team extends HttpServlet{
 	    req.setAttribute("request", "teamcreate");
 	    req.setAttribute("teambtn", btnType);
 		req.getRequestDispatcher("/teamcreate.jsp").forward(req, resp);
+
+		HttpSession user_session = req.getSession();
+		Boolean isLogged = Boolean.valueOf(user_session.getAttribute("userStatus").toString());
+		if(isLogged){
+			req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+		}else{
+			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+		}
    }
 }

@@ -54,7 +54,9 @@ public class Login extends HttpServlet{
 				usersession.setAttribute("userrole", userrole);
 				usersession.setAttribute("userFname", fname);
 				usersession.setAttribute("user_id", user_id);
-				usersession.setAttribute("userStatus", true);
+
+				UserRole user = new UserRole(req);
+				user.loginUser();
 
 				if(rs.getInt("userrole") == 1){
 					resp.sendRedirect(req.getContextPath() + "/dashboard");
@@ -77,8 +79,7 @@ public class Login extends HttpServlet{
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
- 		 req.getRequestDispatcher("/login.jsp").forward(req, resp);
-   }
- 
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+ 		req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    }
 }

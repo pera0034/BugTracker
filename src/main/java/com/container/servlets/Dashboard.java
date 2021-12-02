@@ -52,9 +52,9 @@ public class Dashboard extends HttpServlet{
 		
 		List<ListProjects> projects = dao.getAllProjects();
 
-		UserRole user_role = new UserRole(req);
-		req.setAttribute("user_role", user_role.checkUser());
-		req.setAttribute("hello_user", user_role.helloUser());
+		UserRole user = new UserRole(req);
+		req.setAttribute("user_role", user.checkUser());
+		req.setAttribute("hello_user", user.helloUser());
 
 		req.setAttribute("btn", "Create");
 		req.setAttribute("projects", projects);
@@ -76,7 +76,14 @@ public class Dashboard extends HttpServlet{
 		req.setAttribute("btn", "Create");
 		req.setAttribute("request", currentrequest);
 
-		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
+		// Check if user session is true or false
+		HttpSession user_session = req.getSession();
+		Boolean isLogged = Boolean.valueOf(user_session.getAttribute("userStatus").toString());
+		if(isLogged){
+			req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
+		}else{
+			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+		}
    }
 	
    public String insertProject(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException, ServletException {

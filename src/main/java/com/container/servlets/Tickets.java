@@ -86,7 +86,13 @@ public class Tickets extends HttpServlet{
 		 req.setAttribute("ticketsTodo", ticketsToDo);
 		 req.setAttribute("ticketsInProgress", ticketsInProgress);
 		 req.setAttribute("ticketsDeployed", ticketsDeployed);
-		 req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+
+		Boolean isLogged = Boolean.valueOf(user_session.getAttribute("userStatus").toString());
+		if(isLogged){
+			req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+		}else{
+			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+		}
    }
 	
    public String updateTicket(String moveto, int ticketnumber) throws SQLException, IOException, ServletException {		
