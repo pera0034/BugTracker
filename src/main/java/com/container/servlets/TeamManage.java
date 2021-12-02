@@ -43,6 +43,10 @@ public class TeamManage extends HttpServlet{
 		UserDao userdao = new UserDao();		
 		List<Users> users = userdao.getAllUsers();
 		req.setAttribute("users", users);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
 		
 		// Execute save
  		req.getRequestDispatcher("/teammanage.jsp").forward(req, resp);

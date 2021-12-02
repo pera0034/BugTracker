@@ -78,6 +78,11 @@ public class TeamUpdate extends HttpServlet{
 	    req.setAttribute("request", "updateteam");
 	    req.setAttribute("teambtn", btnType);
 	    req.setAttribute("message", state);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/teamcreate.jsp").forward(req, resp);
 	}
 		
@@ -108,6 +113,11 @@ public class TeamUpdate extends HttpServlet{
 		req.setAttribute("teamid", req.getParameter("teamcode"));	
 	    req.setAttribute("request", "updateteam");
 	    req.setAttribute("teambtn", btnType);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
  		req.getRequestDispatcher("/teamcreate.jsp").forward(req, resp);
    }
 	

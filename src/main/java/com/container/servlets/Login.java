@@ -1,25 +1,21 @@
 package com.container.servlets;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.container.dao.ApplicationDao;
+import com.container.beans.Users;
 import com.container.dao.DBConnection;
 
 @WebServlet("/authenticate")
@@ -27,6 +23,8 @@ public class Login extends HttpServlet{
 	
 	private String messageString = null;
 	private String btnType = null;
+	Users user = null;
+	List<Users> users = new ArrayList<Users>();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,12 +43,26 @@ public class Login extends HttpServlet{
 			PreparedStatement statement = c.prepareStatement(selectQuery);
 			statement.setString(1,username);
 			statement.setString(2,hashedPass);
-			
 			ResultSet rs = statement.executeQuery();
-			
 			if(rs.next()) {
-				resp.sendRedirect(req.getContextPath() + "/dashboard");
+
+				String userrole = String.valueOf(rs.getInt("userrole"));
+				String user_id = String.valueOf(rs.getInt("user_id"));
+				String fname = String.valueOf(rs.getString("firstname"));
+
+				HttpSession usersession = req.getSession();
+				usersession.setAttribute("userrole", userrole);
+				usersession.setAttribute("userFname", fname);
+				usersession.setAttribute("user_id", user_id);
+				usersession.setAttribute("userStatus", true);
+
+				if(rs.getInt("userrole") == 1){
+					resp.sendRedirect(req.getContextPath() + "/dashboard");
+				}else{
+					resp.sendRedirect(req.getContextPath() + "/tickets");
+				}
 			}
+
 			else {
 				jspstate = "<div class='alert alert-warning' role='alert'>Login Failed</div>";
 				req.setAttribute("msg", jspstate);
@@ -63,7 +75,6 @@ public class Login extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
-	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		

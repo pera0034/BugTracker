@@ -2,7 +2,7 @@
 
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List" errorPage="error.jsp" isErrorPage="false"%>
+<%@page import="java.util.List" isErrorPage="false"%>
 <%@page import="com.container.beans.ListProjects"%>
 <%@page import="com.container.beans.Projects"%>
 
@@ -29,10 +29,12 @@
                         </span>
                     </a>
                     <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
-                        href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                        href="javascript:void(0)">
+                        <i class="ti-menu ti-close"></i>
+                    </a>
                 </div>
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-                    <div class="navbar-nav me-auto mt-md-0">&nbsp;</div>
+                    <div class="navbar-nav me-auto mt-md-0" style="padding-left: 30px; color: #FFF; font-size: 12pt; text-transform: uppercase;">${hello_user}</div>
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a style="background: #0192C7;" class="nav-link dropdown-toggle waves-effect waves-dark" href="login">
@@ -47,21 +49,27 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item border-top"> 
-                            <a class="sidebar-link" href="dashboard" aria-expanded="false">
-                                <span>Project</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="tickets" aria-expanded="false">
-                                <span class="hide-menu">Tickets</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="createteam" aria-expanded="false">
-                                <span class="hide-menu">Team</span>
-                            </a>
-                        </li>       
+                            <%
+                                Object user_role = request.getAttribute("user_role");
+                                Boolean user_type = Boolean.valueOf(user_role.toString());
+                                if(user_type){
+                            %>
+                                <li class="sidebar-item border-top">
+                                    <a class="sidebar-link" href="dashboard" aria-expanded="false">
+                                        <span>Project</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="createteam" aria-expanded="false">
+                                        <span class="hide-menu">Team</span>
+                                    </a>
+                                </li>
+                            <% }else{ /* return nothing if user role is "user" */  } %>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="tickets" aria-expanded="false">
+                                    <span class="hide-menu">Tickets</span>
+                                </a>
+                            </li>
                     </ul>
                 </nav>
             </div>
@@ -80,7 +88,7 @@
                                 <form action="${request}" method="post">
                                     <div class="form-row align-items-center">
                                         <div style="float: left; margin-right: 10px;">
-                                            <input type="text" class="form-control mb-2" value="${projectname}" name="projectname" style="width: 350px; padding: 15px;" id="inlineFormInput" placeholder="Project Name.."/ >
+                                            <input type="text" class="form-control mb-2" value="${projectname}" name="projectname" style="width: 350px; padding: 15px;" id="inlineFormInput" placeholder="Project Name.." required/ >
                                             <input type="hidden" name="projectid" value="${projectid}" />
                                         </div>
                                         <div style="float: left;">

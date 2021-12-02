@@ -35,6 +35,10 @@ public class Team extends HttpServlet{
 		List<ListTeam> teams = dao.getAllTeam();
 		req.setAttribute("teams", teams);
 
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		UserDao userdao = new UserDao();		
 		List<Users> users = userdao.getAllUsers();
 		req.setAttribute("users", users);

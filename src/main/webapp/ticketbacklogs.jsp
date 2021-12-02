@@ -40,21 +40,27 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item border-top"> 
+                        <%
+                            Object user_role = request.getAttribute("user_role");
+                            Boolean user_type = Boolean.valueOf(user_role.toString());
+                            if(user_type){
+                        %>
+                        <li class="sidebar-item border-top">
                             <a class="sidebar-link" href="dashboard" aria-expanded="false">
                                 <span>Project</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="tickets" aria-expanded="false">
-                                <span class="hide-menu">Tickets</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="createteam" aria-expanded="false">
                                 <span class="hide-menu">Team</span>
                             </a>
-                        </li>       
+                        </li>
+                        <% }else{ /* return nothing if user role is "user" */  } %>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="tickets" aria-expanded="false">
+                                <span class="hide-menu">Tickets</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -1,14 +1,7 @@
 package com.container.servlets;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.naming.Context;
@@ -85,6 +78,10 @@ public class CreateTicket extends HttpServlet{
 		req.setAttribute("project_id", 0);		
 		req.setAttribute("team_id", 0);		
 		req.setAttribute("user_id", 0);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
 		
 		req.getRequestDispatcher("/createticket.jsp").forward(req, resp);
 	}
@@ -115,7 +112,12 @@ public class CreateTicket extends HttpServlet{
 		req.setAttribute("project_id", 0);		
 		req.setAttribute("team_id", 0);		
 		req.setAttribute("user_id", 0);
- 		req.getRequestDispatcher("/createticket.jsp").forward(req, resp);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
+		req.getRequestDispatcher("/createticket.jsp").forward(req, resp);
     }
  	
 	public String insertTicket(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException, ServletException {

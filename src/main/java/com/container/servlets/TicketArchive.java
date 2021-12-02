@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.container.beans.ListProjects;
 import com.container.beans.ListTeam;
@@ -31,6 +32,10 @@ public class TicketArchive extends HttpServlet {
 	private String message = null;
 	
 	Projects project = null;
+
+	List<ListTickets> ticketsToDo;
+	List<ListTickets> ticketsInProgress;
+	List<ListTickets> ticketsDeployed;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
@@ -60,16 +65,30 @@ public class TicketArchive extends HttpServlet {
 				state = "";
 				break;
 		}
-		 
-		 List<ListTickets> ticketsToDo = dao.getAllTicketsStatus(1);
-		 List<ListTickets> ticketsInProgress = dao.getAllTicketsStatus(2);
-		 List<ListTickets> ticketsDeployed = dao.getAllTicketsStatus(3);
 
-		 req.setAttribute("ticketsTodo", ticketsToDo);
-		 req.setAttribute("ticketsInProgress", ticketsInProgress);
-		 req.setAttribute("ticketsDeployed", ticketsDeployed);
-		 req.setAttribute("message", state);
-		 req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
+		HttpSession user_session = req.getSession();
+		int user_id = Integer.valueOf(user_session.getAttribute("user_id").toString());
+
+		if(user_role.checkUser()) {
+			ticketsToDo = dao.getAllTicketsStatus(1, user_id);
+			ticketsInProgress = dao.getAllTicketsStatus(2, user_id);
+			ticketsDeployed = dao.getAllTicketsStatus(3, user_id);
+		}else{
+			ticketsToDo = dao.getAllTicketsStatus(1, user_id);
+			ticketsInProgress = dao.getAllTicketsStatus(2, user_id);
+			ticketsDeployed = dao.getAllTicketsStatus(3, user_id);
+		}
+
+		req.setAttribute("ticketsTodo", ticketsToDo);
+		req.setAttribute("ticketsInProgress", ticketsInProgress);
+		req.setAttribute("ticketsDeployed", ticketsDeployed);
+		req.setAttribute("message", state);
+
+		req.getRequestDispatcher("/tickets.jsp").forward(req, resp);
    }
    
    private String deleteTicketEntry(String ticketnumber) throws SQLException, IOException {

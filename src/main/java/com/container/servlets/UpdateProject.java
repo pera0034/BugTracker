@@ -59,6 +59,11 @@ public class UpdateProject extends HttpServlet {
 		req.setAttribute("btn", "Update");
 		req.setAttribute("messageString", state);
 		req.setAttribute("request", currentrequest);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
 	}
 	
@@ -88,6 +93,11 @@ public class UpdateProject extends HttpServlet {
 		req.setAttribute("projectid", req.getParameter("id")); // this will get the URL parameter id
 		req.setAttribute("btn", btnType);
 		req.setAttribute("request", currentrequest);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
    }
 	

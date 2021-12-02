@@ -86,16 +86,21 @@ public class TicketDao {
 	}
 	
 	
-	public List<ListTickets> getAllTicketsStatus(int status) {		
+	public List<ListTickets> getAllTicketsStatus(int status, int user_id) {
 		ListTickets ticket = null;
 		List<ListTickets> tickets = new ArrayList<ListTickets>();
 		List<ListTickets> empty = new ArrayList<ListTickets>();
-		
+		String sql;
 		try {
 			// Connect to DB
 			Connection connection = DBConnection.getConnectionToDatabase();
-			
-			String sql = "SELECT * FROM tbltickets WHERE active = 1 AND ticketstatus = " + status + " ORDER BY tickettimestamp DESC";
+
+			if (user_id == 1) {
+				sql = "SELECT * FROM tbltickets WHERE active = 1 AND ticketstatus = " + status + " ORDER BY tickettimestamp DESC";
+			}else{
+				sql = "SELECT * FROM tbltickets WHERE active = 1 AND ticketstatus = " + status + " AND user_id = " + user_id +" ORDER BY tickettimestamp DESC";
+			}
+
 			Statement statement = connection.createStatement();
 			ResultSet set = statement.executeQuery(sql);
 			

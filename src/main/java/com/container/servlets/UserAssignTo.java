@@ -59,6 +59,11 @@ public class UserAssignTo extends HttpServlet {
 	    req.setAttribute("request", "createteam");
 	    req.setAttribute("teambtn", btnType);
 	    req.setAttribute("message", "");
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/teamcreate.jsp").forward(req, resp);
    }
    

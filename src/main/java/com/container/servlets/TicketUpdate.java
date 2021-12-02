@@ -79,6 +79,11 @@ public class TicketUpdate extends HttpServlet{
 		req.setAttribute("project_id", 0);		
 		req.setAttribute("team_id", 0);		
 		req.setAttribute("user_id", 0);
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/createticket.jsp").forward(req, resp);
 		
 	}
@@ -132,7 +137,12 @@ public class TicketUpdate extends HttpServlet{
 		req.setAttribute("user_id", ticket.getAssignuser());
 		req.setAttribute("message", "");
 		req.setAttribute("request", currentrequest);
-		req.setAttribute("ticketnumber", req.getParameter("ticket")); 
+		req.setAttribute("ticketnumber", req.getParameter("ticket"));
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.getRequestDispatcher("/createticket.jsp").forward(req, resp);
    }
    

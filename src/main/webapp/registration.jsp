@@ -22,11 +22,11 @@
                         <h3 class="textcss"><b>Bug Tracker</b></h3>
                             <div class="col-md-12">${msg}</div>
                             <form action="registration" method="post" style="margin: 0 auto; display: table; width: 80%; padding-top: 25px; padding-bottom: 25px;" class="border-top border-bottom">
-                                <input type="text" style="margin-bottom: 20px; padding: 10px 10px;" class="form-control" name="username" placeholder="Username...">
-                                <input type="password"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="firstPass" placeholder="Password..."> 
-                                <input type="text"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="firstname" placeholder="First Name..."> 
-                                <input type="text"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="lastname" placeholder="Last Name..."> 
-                                <input type="email"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="email" placeholder="Email...">
+                                <input type="text" style="margin-bottom: 20px; padding: 10px 10px;" class="form-control" name="username" placeholder="Username..." required>
+                                <input type="password"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="firstPass" placeholder="Password..." required>
+                                <input type="text"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="firstname" placeholder="First Name..." required>
+                                <input type="text"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="lastname" placeholder="Last Name..." required>
+                                <input type="email"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="email" placeholder="Email..." required>
                                 <input type="submit" class="btn btn-success" style="color: #FFF;" value="Register"/>
                             </form>
                             <br />

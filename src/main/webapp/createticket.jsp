@@ -2,7 +2,7 @@
 
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List" errorPage="error.jsp" isErrorPage="false"%>
+<%@page import="java.util.List" isErrorPage="false"%>
 <%@page import="com.container.beans.ListTickets"%>
 <%@page import="com.container.beans.TicketData"%>
 <%@page import="com.container.beans.ListTeam"%>
@@ -50,23 +50,29 @@
         <aside class="left-sidebar">
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="sidebar-item border-top"> 
-                            <a class="sidebar-link" href="dashboard" aria-expanded="false">
-                                <span>Project</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="tickets" aria-expanded="false">
-                                <span class="hide-menu">Tickets</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="createteam" aria-expanded="false">
-                                <span class="hide-menu">Team</span>
-                            </a>
-                        </li>       
-                    </ul>
+					<ul id="sidebarnav">
+						<%
+							Object user_role = request.getAttribute("user_role");
+							Boolean user_type = Boolean.valueOf(user_role.toString());
+							if(user_type){
+						%>
+						<li class="sidebar-item border-top">
+							<a class="sidebar-link" href="dashboard" aria-expanded="false">
+								<span>Project</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="createteam" aria-expanded="false">
+								<span class="hide-menu">Team</span>
+							</a>
+						</li>
+						<% }else{ /* return nothing if user role is "user" */  } %>
+						<li class="sidebar-item">
+							<a class="sidebar-link" href="tickets" aria-expanded="false">
+								<span class="hide-menu">Tickets</span>
+							</a>
+						</li>
+					</ul>
                 </nav>
             </div>
         </aside>
@@ -106,12 +112,12 @@
                     			${message}
 		                        <form action="${request}" method="post" style="background: #FFF !important; margin-right: 10px; padding: 40px 30px;">
 			                            <div class="form-group">
-			                              <input type="text" name="tickettitle" value="${ticket_title}" class="form-control" id="exampleFormControlInput1" placeholder="Ticket Title...">
+			                              <input type="text" name="tickettitle" value="${ticket_title}" class="form-control" id="exampleFormControlInput1" placeholder="Ticket Title..." required>
 			                            </div>
 			                            <div class="form-group">
 				                              <label for="exampleFormControlSelect1">Assign to a project</label>
 				                              
-				                              <select name="ticketproject" class="form-control">
+				                              <select name="ticketproject" class="form-control" required>
 										        <option value="0">&nbsp;</option>
 					                            <%	 
 					                             	 Object object = request.getAttribute("project_id");
@@ -134,11 +140,12 @@
 			                            </div>   
 			                            <div class="form-group">
 			                              <label for="exampleFormControlTextarea1">Ticket Description</label>
-			                              <textarea name="ticketdescription" class="form-control" id="exampleFormControlTextarea1" rows="3">${ticket_desc}</textarea>
+			                              <textarea name="ticketdescription" class="form-control" id="exampleFormControlTextarea1" rows="3" required>${ticket_desc}</textarea>
 			                            </div>
+
 			                            <div class="form-group">
 			                                <label for="exampleFormControlSelect1">Select Team</label>
-			                                <select name="assignteam" class="form-control" id="exampleFormControlSelect1">
+			                                <select name="assignteam" class="form-control" id="exampleFormControlSelect1" required>
 										        <option value="0">&nbsp;</option>
 					                            <%	 
 					                             	 Object teamobj = request.getAttribute("team_id");
@@ -161,7 +168,7 @@
 			                            </div>
 			                            <div class="form-group">
 			                                <label for="exampleFormControlSelect1">Assign to: </label>		
-			                                <select name="assignuser" class="form-control">
+			                                <select name="assignuser" class="form-control" required>
 			                                  <option value="0">&nbsp;</option>
 			                                  <%	 
 					                             	 Object userobj = request.getAttribute("user_id");

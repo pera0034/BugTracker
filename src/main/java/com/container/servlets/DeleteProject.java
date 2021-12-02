@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.container.beans.ListProjects;
 import com.container.beans.Notifications;
-import com.container.beans.Projects;
 import com.container.dao.ApplicationDao;
 
 
@@ -43,6 +42,11 @@ public class DeleteProject extends HttpServlet {
 				state = "";
 				break;
 		}
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		List<ListProjects> projects = dao.getAllProjects();
 		req.setAttribute("projects", projects);
 		req.setAttribute("btn", "Create");

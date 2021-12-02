@@ -23,8 +23,8 @@
                         <h3 class="textcss"><b>Bug Tracker</b></h3>
                             <div class="col-md-12">${msg}</div>
                             <form action="authenticate" method="post" style="margin: 0 auto; display: table; width: 80%; padding-top: 25px; padding-bottom: 25px;" class="login border-top border-bottom">
-                                <input type="text" style="margin-bottom: 10px; padding: 10px 10px;" class="form-control" name="username" placeholder="Username...">
-                                <input type="password"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" name="password" placeholder="Password...">
+                                <input type="text" style="margin-bottom: 10px; padding: 10px 10px;" class="form-control" name="username" placeholder="Username..." required>
+                                <input type="password"  style="margin-bottom: 20px;  padding: 10px 10px;" class="form-control" required name="password" placeholder="Password...">
                                 <input type="submit" class="btn btn-success" style="color: #FFF;" value="Login User"/>
                             </form>
                             <br />

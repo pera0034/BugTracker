@@ -1,22 +1,15 @@
 package com.container.servlets;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.io.PrintWriter;
-import java.text.MessageFormat;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.container.beans.Notifications;
 import com.container.beans.Projects;
@@ -30,8 +23,9 @@ public class Dashboard extends HttpServlet{
 	private String btn = "";
 
 	GetTimeStamp timeStamp = new GetTimeStamp();
-	private String currentrequest = "dashboard";
+	private final String currentrequest = "dashboard";
 	private String projectname = "";
+
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,24 +36,26 @@ public class Dashboard extends HttpServlet{
 		// Get data from form
 		String projectname = req.getParameter("projectname");
 		String action = req.getParameter("btnaction");
-		switch(action){
-			case "Create":
-				try {
-					if(notify.checkDataEntry(projectname)){
-						state = insertProject(req, resp);
-					}else {
-					    state = notify.checkFields(true);
-					}
-				} catch (SQLException | IOException | ServletException e) {
-					e.printStackTrace();
+		if ("Create".equals(action)) {
+			try {
+				if (notify.checkDataEntry(projectname)) {
+					state = insertProject(req, resp);
+				} else {
+					state = notify.checkFields(true);
 				}
-			    break;
-			default:
-				state = "";
-				break;
+			} catch (SQLException | IOException | ServletException e) {
+				e.printStackTrace();
+			}
+		} else {
+			state = "";
 		}
 		
 		List<ListProjects> projects = dao.getAllProjects();
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.setAttribute("btn", "Create");
 		req.setAttribute("projects", projects);
 		req.setAttribute("messageString", state);
@@ -71,9 +67,15 @@ public class Dashboard extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ApplicationDao dao = new ApplicationDao();		
 		List<ListProjects> projects = dao.getAllProjects();
+
+		UserRole user_role = new UserRole(req);
+		req.setAttribute("user_role", user_role.checkUser());
+		req.setAttribute("hello_user", user_role.helloUser());
+
 		req.setAttribute("projects", projects);
 		req.setAttribute("btn", "Create");
 		req.setAttribute("request", currentrequest);
+
 		req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
    }
 	

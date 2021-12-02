@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List" errorPage="error.jsp" isErrorPage="false"%>
+<%@page import="java.util.List" isErrorPage="false"%>
 <%@page import="com.container.beans.ListTeam"%>
 <%@page import="com.container.beans.Users"%>
 <html dir="ltr" lang="en">
@@ -45,21 +45,27 @@
             <div class="scroll-sidebar">
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item border-top"> 
+                        <%
+                            Object user_role = request.getAttribute("user_role");
+                            Boolean user_type = Boolean.valueOf(user_role.toString());
+                            if(user_type){
+                        %>
+                        <li class="sidebar-item border-top">
                             <a class="sidebar-link" href="dashboard" aria-expanded="false">
                                 <span>Project</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="tickets" aria-expanded="false">
-                                <span class="hide-menu">Tickets</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="createteam" aria-expanded="false">
                                 <span class="hide-menu">Team</span>
                             </a>
-                        </li>       
+                        </li>
+                        <% }else{ /* return nothing if user role is "user" */  } %>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="tickets" aria-expanded="false">
+                                <span class="hide-menu">Tickets</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -80,7 +86,7 @@
                       		 <form action="${request}" method="post">
                                  <div class="form-row align-items-center">
                                      <div style="float: left; margin-right: 10px;">
-                                         <input type="text" class="form-control mb-2" value="${teamname}" name="teamname" style="width: 350px; padding: 15px;" id="inlineFormInput" placeholder="Team Name..." />
+                                         <input type="text" class="form-control mb-2" value="${teamname}" name="teamname" style="width: 350px; padding: 15px;" id="inlineFormInput" placeholder="Team Name..." required />
                                          <input type="hidden" name="teamcode" value="${teamid}" />
                                      </div>
                                      <div style="float: left;">

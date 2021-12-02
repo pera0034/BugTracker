@@ -30,7 +30,12 @@ public class TicketBacklogs extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {		
 		 // Load all tickets
 		 // Functionality of the update  
-		 // Get all the 
+		 // Get all the
+
+		 UserRole user_role = new UserRole(req);
+		 req.setAttribute("user_role", user_role.checkUser());
+		 req.setAttribute("hello_user", user_role.helloUser());
+
  		 req.getRequestDispatcher("/ticketbacklogs.jsp").forward(req, resp);
    }
 }
